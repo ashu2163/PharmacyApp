@@ -1,0 +1,869 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PharmacyApp_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="admin_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="admin_phone_no" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="admin_email" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="admin_password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\DELL-PC\DOCUMENTS\VISUAL STUDIO 2017\PROJECTS\PHARMACY APP\PHARMACY APP\PHARMACY APP\APP_DATA\PHARMACYAPP_DB.MDF.dbo.bill' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="bill">
+          <Key>
+            <PropertyRef Name="order_id" />
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="total_price" />
+            <PropertyRef Name="order_date" />
+            <PropertyRef Name="seller_id" />
+          </Key>
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="total_price" Type="float" Nullable="false" />
+          <Property Name="order_date" Type="date" Nullable="false" />
+          <Property Name="seller_id" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\DELL-PC\DOCUMENTS\VISUAL STUDIO 2017\PROJECTS\PHARMACY APP\PHARMACY APP\PHARMACY APP\APP_DATA\PHARMACYAPP_DB.MDF.dbo.cart' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="medicine_id" />
+            <PropertyRef Name="medicine_quantity" />
+          </Key>
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="medicine_id" Type="int" Nullable="false" />
+          <Property Name="medicine_quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="customer_phone_no" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="customer_email" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="customer_addressline_1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_addressline_2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_city" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="customer_points" Type="int" Nullable="false" />
+          <Property Name="customer_password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="doctor_id" />
+          </Key>
+          <Property Name="doctor_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="doctor_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="doctor_addressline_1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="doctor_addressline_2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="doctor_city" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="doctor_phone_no" Type="int" Nullable="false" />
+          <Property Name="doctor_department" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="medicine">
+          <Key>
+            <PropertyRef Name="medicine_id" />
+          </Key>
+          <Property Name="medicine_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="medicine_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="medicine_description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="medicine_type" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_cost_price" Type="float" Nullable="false" />
+          <Property Name="medicine_selling_price" Type="float" Nullable="false" />
+          <Property Name="medicine_max_quantity" Type="int" Nullable="false" />
+          <Property Name="medicine_man_date" Type="date" Nullable="false" />
+          <Property Name="medicine_exp_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_details">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="medicine_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="order_status" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="payment_info">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_mode" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\DELL-PC\DOCUMENTS\VISUAL STUDIO 2017\PROJECTS\PHARMACY APP\PHARMACY APP\PHARMACY APP\APP_DATA\PHARMACYAPP_DB.MDF.dbo.remainder' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="remainder">
+          <Key>
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="medicine_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="medicine_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="seller">
+          <Key>
+            <PropertyRef Name="seller_id" />
+          </Key>
+          <Property Name="seller_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="seller_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="seller_email" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="seller_phone_no" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="seller_addressline_1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="seller_addressline_2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="seller_city" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="seller_password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\DELL-PC\DOCUMENTS\VISUAL STUDIO 2017\PROJECTS\PHARMACY APP\PHARMACY APP\PHARMACY APP\APP_DATA\PHARMACYAPP_DB.MDF.dbo.seller_medicine' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="seller_medicine">
+          <Key>
+            <PropertyRef Name="seller_id" />
+            <PropertyRef Name="medicine_id" />
+            <PropertyRef Name="quantity" />
+          </Key>
+          <Property Name="seller_id" Type="int" Nullable="false" />
+          <Property Name="medicine_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_bill_ToTable_1">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="bill" Type="Self.bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bill_ToTable_2">
+          <End Role="seller" Type="Self.seller" Multiplicity="1" />
+          <End Role="bill" Type="Self.bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seller">
+              <PropertyRef Name="seller_id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="seller_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_ToTable">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_ToTable_1">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="medicine_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_details_ToTable">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_details" Type="Self.order_details" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_details_ToTable_1">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="1" />
+          <End Role="order_details" Type="Self.order_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="medicine_id" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_ToTable">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_remainder_ToTable">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="remainder" Type="Self.remainder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="remainder">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_remainder_ToTable_1">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="1" />
+          <End Role="remainder" Type="Self.remainder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="medicine_id" />
+            </Principal>
+            <Dependent Role="remainder">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seller_medicine_ToTable">
+          <End Role="seller" Type="Self.seller" Multiplicity="1" />
+          <End Role="seller_medicine" Type="Self.seller_medicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seller">
+              <PropertyRef Name="seller_id" />
+            </Principal>
+            <Dependent Role="seller_medicine">
+              <PropertyRef Name="seller_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seller_medicine_ToTable_1">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="1" />
+          <End Role="seller_medicine" Type="Self.seller_medicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="medicine_id" />
+            </Principal>
+            <Dependent Role="seller_medicine">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="order_id">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="payment_info" Type="Self.payment_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="payment_info">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PharmacyApp_DBModelStoreContainer">
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="doctor" EntityType="Self.doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="medicine" EntityType="Self.medicine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_details" EntityType="Self.order_details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payment_info" EntityType="Self.payment_info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="seller" EntityType="Self.seller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bill" EntityType="Self.bill" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [bill].[order_id] AS [order_id], 
+    [bill].[customer_id] AS [customer_id], 
+    [bill].[total_price] AS [total_price], 
+    [bill].[order_date] AS [order_date], 
+    [bill].[seller_id] AS [seller_id]
+    FROM [dbo].[bill] AS [bill]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="cart" EntityType="Self.cart" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [cart].[customer_id] AS [customer_id], 
+    [cart].[medicine_id] AS [medicine_id], 
+    [cart].[medicine_quantity] AS [medicine_quantity]
+    FROM [dbo].[cart] AS [cart]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="remainder" EntityType="Self.remainder" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [remainder].[customer_id] AS [customer_id], 
+    [remainder].[medicine_id] AS [medicine_id]
+    FROM [dbo].[remainder] AS [remainder]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="seller_medicine" EntityType="Self.seller_medicine" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [seller_medicine].[seller_id] AS [seller_id], 
+    [seller_medicine].[medicine_id] AS [medicine_id], 
+    [seller_medicine].[quantity] AS [quantity]
+    FROM [dbo].[seller_medicine] AS [seller_medicine]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_bill_ToTable_1" Association="Self.FK_bill_ToTable_1">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="bill" EntitySet="bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bill_ToTable_2" Association="Self.FK_bill_ToTable_2">
+            <End Role="seller" EntitySet="seller" />
+            <End Role="bill" EntitySet="bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_ToTable" Association="Self.FK_cart_ToTable">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="cart" EntitySet="cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_ToTable_1" Association="Self.FK_cart_ToTable_1">
+            <End Role="medicine" EntitySet="medicine" />
+            <End Role="cart" EntitySet="cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_details_ToTable" Association="Self.FK_order_details_ToTable">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_details_ToTable_1" Association="Self.FK_order_details_ToTable_1">
+            <End Role="medicine" EntitySet="medicine" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_ToTable" Association="Self.FK_orders_ToTable">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_remainder_ToTable" Association="Self.FK_remainder_ToTable">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="remainder" EntitySet="remainder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_remainder_ToTable_1" Association="Self.FK_remainder_ToTable_1">
+            <End Role="medicine" EntitySet="medicine" />
+            <End Role="remainder" EntitySet="remainder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seller_medicine_ToTable" Association="Self.FK_seller_medicine_ToTable">
+            <End Role="seller" EntitySet="seller" />
+            <End Role="seller_medicine" EntitySet="seller_medicine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seller_medicine_ToTable_1" Association="Self.FK_seller_medicine_ToTable_1">
+            <End Role="medicine" EntitySet="medicine" />
+            <End Role="seller_medicine" EntitySet="seller_medicine" />
+          </AssociationSet>
+          <AssociationSet Name="order_id" Association="Self.order_id">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="payment_info" EntitySet="payment_info" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PharmacyApp_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="admin_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="admin_phone_no" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="admin_email" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="admin_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customer_phone_no" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="customer_email" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customer_addressline_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customer_addressline_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customer_city" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customer_points" Type="Int32" Nullable="false" />
+          <Property Name="customer_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="bills" Relationship="Self.FK_bill_ToTable_1" FromRole="customer" ToRole="bill" />
+          <NavigationProperty Name="carts" Relationship="Self.FK_cart_ToTable" FromRole="customer" ToRole="cart" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_orders_ToTable" FromRole="customer" ToRole="orders" />
+          <NavigationProperty Name="medicines" Relationship="Self.remainder" FromRole="customer" ToRole="medicine" />
+        </EntityType>
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="doctor_id" />
+          </Key>
+          <Property Name="doctor_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="doctor_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="doctor_addressline_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="doctor_addressline_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="doctor_city" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="doctor_phone_no" Type="Int32" Nullable="false" />
+          <Property Name="doctor_department" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="medicine">
+          <Key>
+            <PropertyRef Name="medicine_id" />
+          </Key>
+          <Property Name="medicine_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="medicine_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="medicine_description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="medicine_type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_cost_price" Type="Double" Nullable="false" />
+          <Property Name="medicine_selling_price" Type="Double" Nullable="false" />
+          <Property Name="medicine_max_quantity" Type="Int32" Nullable="false" />
+          <Property Name="medicine_man_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="medicine_exp_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="carts" Relationship="Self.FK_cart_ToTable_1" FromRole="medicine" ToRole="cart" />
+          <NavigationProperty Name="order_details" Relationship="Self.FK_order_details_ToTable_1" FromRole="medicine" ToRole="order_details" />
+          <NavigationProperty Name="seller_medicine" Relationship="Self.FK_seller_medicine_ToTable_1" FromRole="medicine" ToRole="seller_medicine" />
+          <NavigationProperty Name="customers" Relationship="Self.remainder" FromRole="medicine" ToRole="customer" />
+        </EntityType>
+        <EntityType Name="order_details">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="medicine_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="medicine" Relationship="Self.FK_order_details_ToTable_1" FromRole="order_details" ToRole="medicine" />
+          <NavigationProperty Name="order" Relationship="Self.FK_order_details_ToTable" FromRole="order_details" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="order_status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_orders_ToTable" FromRole="orders" ToRole="customer" />
+          <NavigationProperty Name="order_details" Relationship="Self.FK_order_details_ToTable" FromRole="orders" ToRole="order_details" />
+          <NavigationProperty Name="payment_info" Relationship="Self.order_id" FromRole="orders" ToRole="payment_info" />
+        </EntityType>
+        <EntityType Name="payment_info">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_mode" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.order_id" FromRole="payment_info" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="seller">
+          <Key>
+            <PropertyRef Name="seller_id" />
+          </Key>
+          <Property Name="seller_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="seller_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seller_email" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seller_phone_no" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="seller_addressline_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seller_addressline_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seller_city" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seller_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="bills" Relationship="Self.FK_bill_ToTable_2" FromRole="seller" ToRole="bill" />
+          <NavigationProperty Name="seller_medicine" Relationship="Self.FK_seller_medicine_ToTable" FromRole="seller" ToRole="seller_medicine" />
+        </EntityType>
+        <EntityType Name="bill">
+          <Key>
+            <PropertyRef Name="order_id" />
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="total_price" />
+            <PropertyRef Name="order_date" />
+            <PropertyRef Name="seller_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="total_price" Type="Double" Nullable="false" />
+          <Property Name="order_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="seller_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_bill_ToTable_1" FromRole="bill" ToRole="customer" />
+          <NavigationProperty Name="seller" Relationship="Self.FK_bill_ToTable_2" FromRole="bill" ToRole="seller" />
+        </EntityType>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="medicine_id" />
+            <PropertyRef Name="medicine_quantity" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="medicine_id" Type="Int32" Nullable="false" />
+          <Property Name="medicine_quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_cart_ToTable" FromRole="cart" ToRole="customer" />
+          <NavigationProperty Name="medicine" Relationship="Self.FK_cart_ToTable_1" FromRole="cart" ToRole="medicine" />
+        </EntityType>
+        <EntityType Name="seller_medicine">
+          <Key>
+            <PropertyRef Name="seller_id" />
+            <PropertyRef Name="medicine_id" />
+            <PropertyRef Name="quantity" />
+          </Key>
+          <Property Name="seller_id" Type="Int32" Nullable="false" />
+          <Property Name="medicine_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="medicine" Relationship="Self.FK_seller_medicine_ToTable_1" FromRole="seller_medicine" ToRole="medicine" />
+          <NavigationProperty Name="seller" Relationship="Self.FK_seller_medicine_ToTable" FromRole="seller_medicine" ToRole="seller" />
+        </EntityType>
+        <Association Name="FK_bill_ToTable_1">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="bill" Type="Self.bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_ToTable">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_ToTable">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="orders" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_ToTable_1">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="medicine_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_details_ToTable_1">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="1" />
+          <End Role="order_details" Type="Self.order_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="medicine_id" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seller_medicine_ToTable_1">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="1" />
+          <End Role="seller_medicine" Type="Self.seller_medicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="medicine_id" />
+            </Principal>
+            <Dependent Role="seller_medicine">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_details_ToTable">
+          <End Role="orders" Type="Self.order" Multiplicity="1" />
+          <End Role="order_details" Type="Self.order_details" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="order_id">
+          <End Role="orders" Type="Self.order" Multiplicity="1" />
+          <End Role="payment_info" Type="Self.payment_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="payment_info">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bill_ToTable_2">
+          <End Role="seller" Type="Self.seller" Multiplicity="1" />
+          <End Role="bill" Type="Self.bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seller">
+              <PropertyRef Name="seller_id" />
+            </Principal>
+            <Dependent Role="bill">
+              <PropertyRef Name="seller_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seller_medicine_ToTable">
+          <End Role="seller" Type="Self.seller" Multiplicity="1" />
+          <End Role="seller_medicine" Type="Self.seller_medicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seller">
+              <PropertyRef Name="seller_id" />
+            </Principal>
+            <Dependent Role="seller_medicine">
+              <PropertyRef Name="seller_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="remainder">
+          <End Role="customer" Type="Self.customer" Multiplicity="*" />
+          <End Role="medicine" Type="Self.medicine" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="PharmacyApp_DBEntities5" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="admins" EntityType="Self.admin" />
+          <EntitySet Name="customers" EntityType="Self.customer" />
+          <EntitySet Name="doctors" EntityType="Self.doctor" />
+          <EntitySet Name="medicines" EntityType="Self.medicine" />
+          <EntitySet Name="order_details" EntityType="Self.order_details" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="payment_info" EntityType="Self.payment_info" />
+          <EntitySet Name="sellers" EntityType="Self.seller" />
+          <EntitySet Name="bills" EntityType="Self.bill" />
+          <EntitySet Name="carts" EntityType="Self.cart" />
+          <EntitySet Name="seller_medicine" EntityType="Self.seller_medicine" />
+          <AssociationSet Name="FK_bill_ToTable_1" Association="Self.FK_bill_ToTable_1">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="bill" EntitySet="bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_ToTable" Association="Self.FK_cart_ToTable">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="cart" EntitySet="carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_ToTable" Association="Self.FK_orders_ToTable">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_ToTable_1" Association="Self.FK_cart_ToTable_1">
+            <End Role="medicine" EntitySet="medicines" />
+            <End Role="cart" EntitySet="carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_details_ToTable_1" Association="Self.FK_order_details_ToTable_1">
+            <End Role="medicine" EntitySet="medicines" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seller_medicine_ToTable_1" Association="Self.FK_seller_medicine_ToTable_1">
+            <End Role="medicine" EntitySet="medicines" />
+            <End Role="seller_medicine" EntitySet="seller_medicine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_details_ToTable" Association="Self.FK_order_details_ToTable">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+          <AssociationSet Name="order_id" Association="Self.order_id">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="payment_info" EntitySet="payment_info" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bill_ToTable_2" Association="Self.FK_bill_ToTable_2">
+            <End Role="seller" EntitySet="sellers" />
+            <End Role="bill" EntitySet="bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seller_medicine_ToTable" Association="Self.FK_seller_medicine_ToTable">
+            <End Role="seller" EntitySet="sellers" />
+            <End Role="seller_medicine" EntitySet="seller_medicine" />
+          </AssociationSet>
+          <AssociationSet Name="remainder" Association="Self.remainder">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="medicine" EntitySet="medicines" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PharmacyApp_DBModelStoreContainer" CdmEntityContainer="PharmacyApp_DBEntities5">
+          <EntitySetMapping Name="admins">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="admin_name" ColumnName="admin_name" />
+                <ScalarProperty Name="admin_phone_no" ColumnName="admin_phone_no" />
+                <ScalarProperty Name="admin_email" ColumnName="admin_email" />
+                <ScalarProperty Name="admin_password" ColumnName="admin_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.customer">
+              <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="customer_phone_no" ColumnName="customer_phone_no" />
+                <ScalarProperty Name="customer_email" ColumnName="customer_email" />
+                <ScalarProperty Name="customer_addressline_1" ColumnName="customer_addressline_1" />
+                <ScalarProperty Name="customer_addressline_2" ColumnName="customer_addressline_2" />
+                <ScalarProperty Name="customer_city" ColumnName="customer_city" />
+                <ScalarProperty Name="customer_points" ColumnName="customer_points" />
+                <ScalarProperty Name="customer_password" ColumnName="customer_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="doctors">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.doctor">
+              <MappingFragment StoreEntitySet="doctor">
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="doctor_name" ColumnName="doctor_name" />
+                <ScalarProperty Name="doctor_addressline_1" ColumnName="doctor_addressline_1" />
+                <ScalarProperty Name="doctor_addressline_2" ColumnName="doctor_addressline_2" />
+                <ScalarProperty Name="doctor_city" ColumnName="doctor_city" />
+                <ScalarProperty Name="doctor_phone_no" ColumnName="doctor_phone_no" />
+                <ScalarProperty Name="doctor_department" ColumnName="doctor_department" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medicines">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.medicine">
+              <MappingFragment StoreEntitySet="medicine">
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="medicine_name" ColumnName="medicine_name" />
+                <ScalarProperty Name="medicine_description" ColumnName="medicine_description" />
+                <ScalarProperty Name="medicine_type" ColumnName="medicine_type" />
+                <ScalarProperty Name="medicine_cost_price" ColumnName="medicine_cost_price" />
+                <ScalarProperty Name="medicine_selling_price" ColumnName="medicine_selling_price" />
+                <ScalarProperty Name="medicine_max_quantity" ColumnName="medicine_max_quantity" />
+                <ScalarProperty Name="medicine_man_date" ColumnName="medicine_man_date" />
+                <ScalarProperty Name="medicine_exp_date" ColumnName="medicine_exp_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_details">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.order_details">
+              <MappingFragment StoreEntitySet="order_details">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.order">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="order_status" ColumnName="order_status" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payment_info">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.payment_info">
+              <MappingFragment StoreEntitySet="payment_info">
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="payment_mode" ColumnName="payment_mode" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sellers">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.seller">
+              <MappingFragment StoreEntitySet="seller">
+                <ScalarProperty Name="seller_id" ColumnName="seller_id" />
+                <ScalarProperty Name="seller_name" ColumnName="seller_name" />
+                <ScalarProperty Name="seller_email" ColumnName="seller_email" />
+                <ScalarProperty Name="seller_phone_no" ColumnName="seller_phone_no" />
+                <ScalarProperty Name="seller_addressline_1" ColumnName="seller_addressline_1" />
+                <ScalarProperty Name="seller_addressline_2" ColumnName="seller_addressline_2" />
+                <ScalarProperty Name="seller_city" ColumnName="seller_city" />
+                <ScalarProperty Name="seller_password" ColumnName="seller_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bills">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.bill">
+              <MappingFragment StoreEntitySet="bill">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="total_price" ColumnName="total_price" />
+                <ScalarProperty Name="order_date" ColumnName="order_date" />
+                <ScalarProperty Name="seller_id" ColumnName="seller_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carts">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.cart">
+              <MappingFragment StoreEntitySet="cart">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="medicine_quantity" ColumnName="medicine_quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seller_medicine">
+            <EntityTypeMapping TypeName="PharmacyApp_DBModel.seller_medicine">
+              <MappingFragment StoreEntitySet="seller_medicine">
+                <ScalarProperty Name="seller_id" ColumnName="seller_id" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="remainder" TypeName="PharmacyApp_DBModel.remainder" StoreEntitySet="remainder">
+            <EndProperty Name="customer">
+              <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+            </EndProperty>
+            <EndProperty Name="medicine">
+              <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
